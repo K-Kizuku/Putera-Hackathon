@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  api:
+    container_name: putera_api
+    build: .
+    ports:
+      - 8000:8000
+    tty: true
+    volumes:
+      - .:/go/src/PuteraAPI
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    container_name: dev_db
+    # image: arm64v8/postgres:13.3-alpine
+    image: postgres:13.3-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+  adminer:
+    container_name: adminer
+    # image: arm64v8/adminer:4.7.5
+    image: adminer:4.7.5
+
+    ports:
+      - 8080:8080
+
+volumes:
+  dbdata: null
